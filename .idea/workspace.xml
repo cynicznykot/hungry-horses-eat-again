@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ba5ecc08-c1e9-45af-b881-c9897d9b6d27" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/hungry-horses-eat-again.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/entities/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/entities/food.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/entities/horse.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/settings.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/helpers.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.0000857205124352" />
+      <entry key="MS500" value="1.1536798584068226" />
+      <entry key="S2" value="1.626115186727045" />
+      <entry key="S5" value="1.8292445301232219" />
+      <entry key="S10" value="1.9181349156441292" />
+      <entry key="S30" value="2.5089425249148714" />
+      <entry key="S60" value="4.784097026426266" />
+      <entry key="M2" value="13.255729900493344" />
+      <entry key="M5" value="50.81111293695347" />
+      <entry key="M10" value="112.88609085526085" />
+      <entry key="M15" value="165.51644355670715" />
+      <entry key="M30" value="272.4986085374757" />
+      <entry key="H1" value="370.77135540285195" />
+      <entry key="H2" value="439.86256186307276" />
+      <entry key="H4" value="481.206715305639" />
+      <entry key="D1" value="519.7891695865435" />
+      <entry key="W1" value="526.8164653226062" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="7.171191037390599E-303" />
+      <entry key="S2" value="2.910032395792722E-76" />
+      <entry key="S5" value="6.1051437493282156E-31" />
+      <entry key="S10" value="7.959367624077204E-16" />
+      <entry key="S30" value="1.2568327731827117E-5" />
+      <entry key="S60" value="0.005665528775351796" />
+      <entry key="M2" value="0.14454339802021174" />
+      <entry key="M5" value="1.3281923406389158" />
+      <entry key="M10" value="3.2946537390671082" />
+      <entry key="M15" value="4.731096508573796" />
+      <entry key="M30" value="7.202967954998534" />
+      <entry key="H1" value="9.171663742312356" />
+      <entry key="H2" value="10.452218550482359" />
+      <entry key="H4" value="11.188634864351627" />
+      <entry key="D1" value="11.859176163072389" />
+      <entry key="W1" value="11.979739805634122" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="0.0033538092209516924" />
+      <entry key="MS500" value="0.3527717498242979" />
+      <entry key="S2" value="1.1776812094592095" />
+      <entry key="S5" value="1.6028854610380225" />
+      <entry key="S10" value="1.795079137518349" />
+      <entry key="S30" value="2.4648997945907922" />
+      <entry key="S60" value="4.758354210961588" />
+      <entry key="M2" value="13.349829035229966" />
+      <entry key="M5" value="52.048927403221235" />
+      <entry key="M10" value="116.08276782832135" />
+      <entry key="M15" value="170.15584575383676" />
+      <entry key="M30" value="279.63178617844363" />
+      <entry key="H1" value="379.89806423133575" />
+      <entry key="H2" value="450.28892743530827" />
+      <entry key="H4" value="492.3814370948816" />
+      <entry key="D1" value="531.6458756469357" />
+      <entry key="W1" value="538.7958483502989" />
+    </decayedShown>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2,
+  &quot;fromUser&quot;: false
+}</component>
+  <component name="ProjectId" id="3GAscLqTkVB8eGBvIdyBSbkSBXV" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.horse.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/CynicznyKot/PythonProjects/hungry-horses-eat-again&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.intellij.pycharm.community.ide.impl.configuration.PythonContentEntriesConfigurable&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\CynicznyKot\PythonProjects\hungry-horses-eat-again" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\CynicznyKot\PythonProjects\PythonProject\hungry-horses-eat-again\src" />
+      <recent name="C:\Users\CynicznyKot\PythonProjects\PythonProject\hungry-horses-eat-again" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="hungry-horses-eat-again" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="false" />
+      <option name="RUN_TOOL" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-245168a56dbd-c2ffad84badb-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-261.25134.203" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ba5ecc08-c1e9-45af-b881-c9897d9b6d27" name="Changes" comment="" />
+      <created>1783425785190</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1783425785190</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

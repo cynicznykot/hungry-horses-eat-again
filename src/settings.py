@@ -1,0 +1,45 @@
+# Window size
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
+
+# Screen refresh rate
+FPS = 60
+
+# Main colors (RGB)
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+BLUE = (0, 0, 255)
+GREEN = (0, 255, 0)
+YELLOW = (255, 255, 0)
+RED = (255, 0, 0)
+
+# Complementary colors
+LIGHT_BLUE = (173, 216, 230)
+DARK_BLUE = (0, 0, 128)
+LIGHT_GREEN = (144, 238, 144)
+DARK_GREEN = (0, 100, 0)
+LIGHT_RED = (255, 182, 193)
+DARK_RED = (139, 0, 0)
+LIGHT_PURPLE = (216, 191, 216)
+LIGHT_GREY = (211, 211, 211)
+DARK_GREY = (64, 64, 64)
+LIGHT_YELLOW = (255, 255, 180)
+DARK_YELLOW = (200, 200, 0)
+ORANGE = (255, 128, 0)
+PURPLE = (128, 0, 128)
+GOLD = (255, 215, 0)
+SILVER = (192, 192, 192)
+PINK = (255, 192, 203)
+BROWN = (128, 128, 0)
+GRAY = (128, 128, 128)
+
+
+# Colors for nice food (buff)
+APPLE_RED = (255, 50, 50)
+CARROT_ORANGE = (255, 140, 0)
+BERRY_PURPLE = (128, 0, 128)
+
+# Colors for bad food (debuff)
+APPLE_ROTTEN = (100, 50, 50)
+BERRY_POISON = (80, 0, 80)
+
