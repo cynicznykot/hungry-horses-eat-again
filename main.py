@@ -1,4 +1,5 @@
 import pygame
+import os
 from src.entities.horse import Horse
 import src.settings as settings
 
@@ -10,9 +11,18 @@ class Game(): # main class Game
         pygame.display.set_caption("Hungry Horses Eat Again")
         self.clock = pygame.time.Clock()
         self.running = True
-        self.horse = Horse(settings.SCREEN_WIDTH // 2, settings.SCREEN_HEIGHT // 2, 40, 40, settings.YELLOW)
+        self.horse = Horse(settings.SCREEN_WIDTH // 2, settings.SCREEN_HEIGHT // 2, 40, 40, settings.BROWN)
         self.direction = (0, 0)
         self.keys_pressed = set()
+
+        grass_path = os.path.join("src", "assets", "images", "bg_green_grass.jpg")
+        self.bg_green_grass = pygame.image.load(grass_path)
+        self.bg_green_grass = pygame.transform.scale(self.bg_green_grass, (settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
+
+        dark_overlay = pygame.Surface((settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
+        dark_overlay.fill((0, 0, 0))
+        dark_overlay.set_alpha(80)
+        self.bg_green_grass.blit(dark_overlay, (0, 0))
 
 
     def handle_events(self): # Player control
@@ -43,13 +53,13 @@ class Game(): # main class Game
     def update(self): # Smoothness of movement
         dx, dy = 0, 0
         if pygame.K_UP in self.keys_pressed:
-            dy = -5
+            dy = -3
         if pygame.K_DOWN in self.keys_pressed:
-            dy = 5
+            dy = 3
         if pygame.K_LEFT in self.keys_pressed:
-            dx = -5
+            dx = -3
         if pygame.K_RIGHT in self.keys_pressed:
-            dx = 5
+            dx = 3
 
         self.horse.move(dx, dy)
 
@@ -67,7 +77,7 @@ class Game(): # main class Game
 
     def render(self):
         # Clear screen and draw all game objects
-        self.screen.fill(settings.BLACK)
+        self.screen.blit(self.bg_green_grass, (0, 0))
         self.horse.draw(self.screen)
         pygame.display.flip()
 
