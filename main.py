@@ -19,9 +19,17 @@ class Game():
         self.keys_pressed = set()
         self.foods = []
         self.total_food_to_collect = 10
-        self.collected_food = 0
+        self.score = 0
+        self.target_score = 30
+        self.food_values = {
+            'apple': 3,
+            'carrot': 2,
+            'berry': 1
+        }
         self.spawn_food_set(3)
         self.level_completed = False
+
+
 
         grass_path = os.path.join("src", "assets", "images", "bg_green_grass.jpg")
         self.bg_green_grass = pygame.image.load(grass_path)
@@ -91,9 +99,9 @@ class Game():
             food = self.foods[i]
             if self.horse.rect.colliderect(food.rect):
                 self.foods.pop(i)
-                self.collected_food += 1
+                self.score += self.food_values[food.food_types]
 
-                if self.collected_food >= self.total_food_to_collect:
+                if self.score >= self.target_score:
                     self.level_completed = True
                     self.running = False
                 else:
@@ -114,6 +122,11 @@ class Game():
             food.draw(self.screen)
 
         self.horse.draw(self.screen)
+
+        # Score text
+        font_small = pygame.font.Font(None, 36)
+        score_text = font_small.render(f"Score: {self.score} / {self.target_score}", True, (255, 255, 255))
+        self.screen.blit(score_text, (10, 10))
 
         # Level completion notification
         if self.level_completed:
