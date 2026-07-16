@@ -1,7 +1,9 @@
 import pygame
 import os
+import random
 from src.entities.horse import Horse
 import src.settings as settings
+from src.entities.food import Food
 
 
 class Game(): # main class Game
@@ -14,6 +16,11 @@ class Game(): # main class Game
         self.horse = Horse(settings.SCREEN_WIDTH // 2, settings.SCREEN_HEIGHT // 2, 40, 40, settings.BROWN)
         self.direction = (0, 0)
         self.keys_pressed = set()
+        self.foods = []
+        self.total_food_to_collect = 10
+        self.collected_food = 0
+        self.spawn_single_food()
+        self.level_completed = False
 
         grass_path = os.path.join("src", "assets", "images", "bg_green_grass.jpg")
         self.bg_green_grass = pygame.image.load(grass_path)
@@ -75,11 +82,43 @@ class Game(): # main class Game
         elif self.horse.rect.y > settings.SCREEN_HEIGHT - self.horse.rect.height:
             self.horse.rect.y = settings.SCREEN_HEIGHT - self.horse.rect.height
 
+        i = 0
+        while i < len(self.foods):
+            food = self.foods[i]
+            if self.horse.rect.colliderect(food.rect):
+                self.foods.pop(i)
+                self.collected_food += 1
+
+                if self.collected_food >= self.total_food_to_collect:
+                    self.level_completed = True
+                    self.running = False
+                else:
+                    self.spawn_single_food()
+
+                break
+            else:
+                i += 1
+
+
+
     def render(self):
         # Clear screen and draw all game objects
         self.screen.blit(self.bg_green_grass, (0, 0))
+
+        # Render foods
+        for food in self.foods:
+            food.draw(self.screen)
+
         self.horse.draw(self.screen)
+
+        if self.level_completed:
+            font = pygame.font.Font(None, 74)
+            text = font.render("Level completed!", True, (255, 255, 255))
+            text_rect = text.get_rect(center=(settings.SCREEN_WIDTH // 2, settings.SCREEN_HEIGHT // 2))
+            self.screen.blit(text, text_rect)
+
         pygame.display.flip()
+
 
 
     def run(self):
@@ -89,6 +128,32 @@ class Game(): # main class Game
             self.update()
             self.render()
             self.clock.tick(settings.FPS)
+
+        pygame.time.wait(2000)
+        pygame.quit()
+
+
+    def spawn_single_food(self):
+        radius = 10
+        color = settings.APPLE_RED
+        type_food = 'apple'
+
+        x = random.randint(0, settings.SCREEN_WIDTH)
+        y = random.randint(0, settings.SCREEN_HEIGHT)
+        temp_rect = pygame.Rect(x - radius, y - radius, radius * 2, radius * 2)
+
+        while temp_rect.colliderect(self.horse.rect):
+            x = random.randint(0, settings.SCREEN_WIDTH)
+            y = random.randint(0, settings.SCREEN_HEIGHT)
+            temp_rect = pygame.Rect(x - radius, y - radius, radius * 2, radius * 2)
+
+        food = Food(x, y, radius, settings.APPLE_RED, 'apple')
+        self.foods.append(food)
+
+
+
+
+
 
 
 if __name__ == "__main__":
