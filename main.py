@@ -3,7 +3,7 @@ import os
 import random
 from src.entities.horse import Horse
 import src.settings as settings
-from src.entities.food import Food
+from src.entities.food import Food, Apple, Carrot, Berry
 
 
 class Game():
@@ -160,7 +160,15 @@ class Game():
             y = random.randint(0, settings.SCREEN_HEIGHT)
             temp_rect = pygame.Rect(x - 10, y - 10, 20, 20)
 
-        food = Food(x, y, food_type)
+        if food_type == 'apple':
+            food = Apple(x, y)
+        elif food_type == 'carrot':
+            food = Carrot(x, y)
+        elif food_type == 'berry':
+            food = Berry(x, y)
+        else:
+            return
+
         self.foods.append(food)
 
     def spawn_food_set(self, count):
