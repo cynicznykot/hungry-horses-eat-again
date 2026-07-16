@@ -29,11 +29,21 @@ class Game():
         self.spawn_food_set(3)
         self.level_completed = False
 
-
-
         grass_path = os.path.join("src", "assets", "images", "bg_green_grass.jpg")
         self.bg_green_grass = pygame.image.load(grass_path)
         self.bg_green_grass = pygame.transform.scale(self.bg_green_grass, (settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
+
+        music_path = os.path.join("src", "assets", "sounds", "FoamRubber.mp3")
+        try:
+            pygame.mixer.music.load(music_path)
+            pygame.mixer.music.set_volume(0.5)
+            pygame.mixer.music.play(-1)
+        except pygame.error:
+            print("Don't load music file.")
+
+        eat_sound_path = os.path.join("src", "assets", "sounds", "eat_food.mp3")
+        self.eat_sound = pygame.mixer.Sound(eat_sound_path)
+
 
         dark_overlay = pygame.Surface((settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
         dark_overlay.fill((0, 0, 0))
@@ -98,6 +108,7 @@ class Game():
         while i < len(self.foods):
             food = self.foods[i]
             if self.horse.rect.colliderect(food.rect):
+                self.eat_sound.play()
                 self.foods.pop(i)
                 self.score += self.food_values[food.food_types]
 
