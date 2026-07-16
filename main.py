@@ -20,7 +20,7 @@ class Game():
         self.foods = []
         self.total_food_to_collect = 10
         self.collected_food = 0
-        self.spawn_single_food()
+        self.spawn_food_set(3)
         self.level_completed = False
 
         grass_path = os.path.join("src", "assets", "images", "bg_green_grass.jpg")
@@ -97,7 +97,8 @@ class Game():
                     self.level_completed = True
                     self.running = False
                 else:
-                    self.spawn_single_food()
+                    new_type = random.choice(['apple', 'carrot', 'berry'])
+                    self.spawn_single_food(new_type)
 
                 break
             else:
@@ -136,23 +137,25 @@ class Game():
         pygame.quit()
 
 
-    def spawn_single_food(self):
-        # Food (apple) spawning func
-        radius = 10
-        color = settings.APPLE_RED
-        type_food = 'apple'
-
+    def spawn_single_food(self, food_type):
         x = random.randint(0, settings.SCREEN_WIDTH)
         y = random.randint(0, settings.SCREEN_HEIGHT)
-        temp_rect = pygame.Rect(x - radius, y - radius, radius * 2, radius * 2)
 
+        temp_rect = pygame.Rect(x - 10, y - 10, 20, 20)
         while temp_rect.colliderect(self.horse.rect):
             x = random.randint(0, settings.SCREEN_WIDTH)
             y = random.randint(0, settings.SCREEN_HEIGHT)
-            temp_rect = pygame.Rect(x - radius, y - radius, radius * 2, radius * 2)
+            temp_rect = pygame.Rect(x - 10, y - 10, 20, 20)
 
-        food = Food(x, y, radius, settings.APPLE_RED, 'apple')
+        food = Food(x, y, food_type)
         self.foods.append(food)
+
+    def spawn_food_set(self, count):
+        self.foods = []
+
+        food_types = ['apple', 'carrot', 'berry']
+        for i in range(min(count, len(food_types))):
+            self.spawn_single_food(food_types[i])
 
 
 if __name__ == "__main__":

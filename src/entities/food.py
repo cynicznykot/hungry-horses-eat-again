@@ -2,14 +2,31 @@ import pygame
 
 class Food():
     # Main class Food for feature inheritance
-    def __init__(self, x, y, radius, color, type_food):
+    def __init__(self, x, y, food_types):
         self.x = x
         self.y = y
-        self.radius = radius
-        self.color = color
-        self.type_food = type_food
-        self.rect = pygame.Rect(x - radius, y - radius, radius * 2, radius * 2)
+        self.food_types = food_types
+        self.rect = pygame.Rect(x - 10, y - 10, 20, 20)
 
+        if food_types == 'apple':
+            self.color = (255, 50, 50)
+            self.radius = 10
+        elif food_types == 'carrot':
+            self.color = (255, 140, 0)
+            self.radius = 12
+        elif food_types == 'berry':
+            self.color = (128, 0, 128)
+            self.radius = 8
+        else:
+            self.color = (255, 255, 255)  # white if food_types is None.
+            self.radius = 10
+
+        self.rect = pygame.Rect(
+            x - self.radius,
+            y - self.radius,
+            self.radius * 2,
+            self.radius * 2
+        )
     def draw(self, screen):
         pygame.draw.circle(screen, self.color, (self.x, self.y), self.radius)
 

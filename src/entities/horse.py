@@ -1,6 +1,7 @@
 import pygame
 
-class Horse(): # main class Horse for feature inheritance
+class Horse():
+    # Main class Horse for feature inheritance
     def __init__(self, x, y, width, height, color):
         self.x = x
         self.y = y
