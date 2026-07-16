@@ -1,6 +1,7 @@
 import pygame
 
 class Food():
+    # Main class Food for feature inheritance
     def __init__(self, x, y, radius, color, type_food):
         self.x = x
         self.y = y

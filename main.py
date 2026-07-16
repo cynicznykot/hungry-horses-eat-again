@@ -6,7 +6,8 @@ import src.settings as settings
 from src.entities.food import Food
 
 
-class Game(): # main class Game
+class Game():
+    # Main Class Game
     def __init__(self):
         pygame.init()
         self.screen = pygame.display.set_mode((settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
@@ -32,7 +33,8 @@ class Game(): # main class Game
         self.bg_green_grass.blit(dark_overlay, (0, 0))
 
 
-    def handle_events(self): # Player control
+    def handle_events(self):
+        # Player control
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
@@ -57,7 +59,8 @@ class Game(): # main class Game
                     self.keys_pressed.discard(pygame.K_RIGHT)
 
 
-    def update(self): # Smoothness of movement
+    def update(self):
+        # Smoothness of movement
         dx, dy = 0, 0
         if pygame.K_UP in self.keys_pressed:
             dy = -3
@@ -82,6 +85,7 @@ class Game(): # main class Game
         elif self.horse.rect.y > settings.SCREEN_HEIGHT - self.horse.rect.height:
             self.horse.rect.y = settings.SCREEN_HEIGHT - self.horse.rect.height
 
+        # The arrival of the food at the right level
         i = 0
         while i < len(self.foods):
             food = self.foods[i]
@@ -100,7 +104,6 @@ class Game(): # main class Game
                 i += 1
 
 
-
     def render(self):
         # Clear screen and draw all game objects
         self.screen.blit(self.bg_green_grass, (0, 0))
@@ -111,6 +114,7 @@ class Game(): # main class Game
 
         self.horse.draw(self.screen)
 
+        # Level completion notification
         if self.level_completed:
             font = pygame.font.Font(None, 74)
             text = font.render("Level completed!", True, (255, 255, 255))
@@ -118,7 +122,6 @@ class Game(): # main class Game
             self.screen.blit(text, text_rect)
 
         pygame.display.flip()
-
 
 
     def run(self):
@@ -134,6 +137,7 @@ class Game(): # main class Game
 
 
     def spawn_single_food(self):
+        # Food (apple) spawning func
         radius = 10
         color = settings.APPLE_RED
         type_food = 'apple'
@@ -149,11 +153,6 @@ class Game(): # main class Game
 
         food = Food(x, y, radius, settings.APPLE_RED, 'apple')
         self.foods.append(food)
-
-
-
-
-
 
 
 if __name__ == "__main__":
