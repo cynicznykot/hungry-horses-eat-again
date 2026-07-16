@@ -15,15 +15,15 @@ class Food():
 
 class Apple(Food):
     def __init__(self, x, y):
-        super().__init__(x, y, 'apple', 12, (255, 50, 50))
+        super().__init__(x, y, 'apple', 20, (255, 50, 50))
 
 class Carrot(Food):
     def __init__(self, x, y):
-        super().__init__(x, y, 'carrot', 10, (255, 140, 0))
+        super().__init__(x, y, 'carrot', 18, (255, 140, 0))
 
 class Berry(Food):
     def __init__(self, x, y):
-        super().__init__(x, y, 'berry', 8, (128, 0, 128))
+        super().__init__(x, y, 'berry', 16, (128, 0, 128))
 
 
 
