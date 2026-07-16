@@ -20,11 +20,11 @@ class Game():
         self.foods = []
         self.total_food_to_collect = 10
         self.score = 0
-        self.target_score = 30
+        self.target_score = 50
         self.food_values = {
-            'apple': 3,
-            'carrot': 2,
-            'berry': 1
+            'apple': 5,
+            'carrot': 4,
+            'berry': 3
         }
         self.spawn_food_set(3)
         self.level_completed = False
