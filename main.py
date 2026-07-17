@@ -14,7 +14,9 @@ class Game():
         pygame.display.set_caption("Hungry Horses Eat Again")
         self.clock = pygame.time.Clock()
         self.running = True
-        self.horse = Horse(settings.SCREEN_WIDTH // 2, settings.SCREEN_HEIGHT // 2, 40, 40, settings.BROWN)
+        self.herd = [Horse(settings.SCREEN_WIDTH // 2, settings.SCREEN_HEIGHT // 2, 40, 40, settings.BROWN)]
+        self.next_horse_score = 5
+        self.head_positions = []
         self.direction = (0, 0)
         self.keys_pressed = set()
         self.foods = []
@@ -78,7 +80,7 @@ class Game():
 
 
     def update(self):
-        # Smoothness of movement
+        # Move head
         dx, dy = 0, 0
         if pygame.K_UP in self.keys_pressed:
             dy = -3
@@ -89,25 +91,40 @@ class Game():
         if pygame.K_RIGHT in self.keys_pressed:
             dx = 3
 
-        self.horse.move(dx, dy)
+        self.herd[0].move(dx, dy)
 
         # Bounds for x-coordinates
-        if self.horse.rect.x < 0:
-            self.horse.rect.x = 0
-        elif self.horse.rect.x > settings.SCREEN_WIDTH - self.horse.rect.width:
-            self.horse.rect.x = settings.SCREEN_WIDTH - self.horse.rect.width
-
+        if self.herd[0].rect.x < 0:
+            self.herd[0].rect.x = 0
+        elif self.herd[0].rect.x > settings.SCREEN_WIDTH - self.herd[0].rect.width:
+            self.herd[0].rect.x = settings.SCREEN_WIDTH - self.herd[0].rect.width
         # Bounds for y-coordinates
-        if self.horse.rect.y < 0:
-            self.horse.rect.y = 0
-        elif self.horse.rect.y > settings.SCREEN_HEIGHT - self.horse.rect.height:
-            self.horse.rect.y = settings.SCREEN_HEIGHT - self.horse.rect.height
+        if self.herd[0].rect.y < 0:
+            self.herd[0].rect.y = 0
+        elif self.herd[0].rect.y > settings.SCREEN_HEIGHT - self.herd[0].rect.height:
+            self.herd[0].rect.y = settings.SCREEN_HEIGHT - self.herd[0].rect.height
+
+        # Save head positions in history
+        self.head_positions.insert(0, (self.herd[0].rect.x, self.herd[0].rect.y))
+
+        # Limiting the history lenght
+        max_history = len(self.herd) * 20 + 20
+        if len(self.head_positions) > max_history:
+            self.head_positions = self.head_positions[:max_history]
+
+        # Move tail
+        step = 15
+        for i in range(1, len(self.herd)):
+            position_index = i * step
+            if position_index < len(self.head_positions):
+                self.herd[i].rect.x = self.head_positions[position_index][0]
+                self.herd[i].rect.y = self.head_positions[position_index][1]
 
         # The arrival of the food at the right level
         i = 0
         while i < len(self.foods):
             food = self.foods[i]
-            if self.horse.rect.colliderect(food.rect):
+            if self.herd[0].rect.colliderect(food.rect):
                 self.eat_sound.play()
                 self.foods.pop(i)
                 self.score += self.food_values[food.food_types]
@@ -123,6 +140,12 @@ class Game():
             else:
                 i += 1
 
+        # Add new horses when reaching 5, 10, 15 points etc
+        if self.score >= self.next_horse_score:
+            last_horse = self.herd[-1]
+            new_horse = Horse(last_horse.rect.x, last_horse.rect.y, 40, 40, settings.BROWN)
+            self.herd.append(new_horse)
+            self.next_horse_score += 5
 
     def render(self):
         # Clear screen and draw all game objects
@@ -132,7 +155,9 @@ class Game():
         for food in self.foods:
             food.draw(self.screen)
 
-        self.horse.draw(self.screen)
+        # Render horses (head and tail)
+        for horse in self.herd:
+            horse.draw(self.screen)
 
         # Score text
         font_small = pygame.font.Font(None, 36)
@@ -166,7 +191,7 @@ class Game():
         y = random.randint(0, settings.SCREEN_HEIGHT)
 
         temp_rect = pygame.Rect(x - 10, y - 10, 20, 20)
-        while temp_rect.colliderect(self.horse.rect):
+        while temp_rect.colliderect(self.herd[0].rect):
             x = random.randint(0, settings.SCREEN_WIDTH)
             y = random.randint(0, settings.SCREEN_HEIGHT)
             temp_rect = pygame.Rect(x - 10, y - 10, 20, 20)
