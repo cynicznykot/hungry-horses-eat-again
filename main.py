@@ -141,8 +141,11 @@ class Game():
         elif self.herd[0].rect.y > settings.SCREEN_HEIGHT - self.herd[0].rect.height:
             self.herd[0].rect.y = settings.SCREEN_HEIGHT - self.herd[0].rect.height
 
-        # Save head positions in history
-        self.head_positions.insert(0, (self.herd[0].rect.x, self.herd[0].rect.y))
+        # Save head positions in history (only if moved)
+        current_pos = (self.herd[0].rect.x, self.herd[0].rect.y)
+
+        if not self.head_positions or self.head_positions[0] != current_pos:
+            self.head_positions.insert(0, current_pos)
 
         # Limiting the history length
         max_history = len(self.herd) * 20 + 20
