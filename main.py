@@ -93,6 +93,7 @@ class Game():
                 self.running = False
 
             if event.type == pygame.KEYDOWN:
+                # Hands
                 if event.key == pygame.K_UP:
                     self.keys_pressed.add(pygame.K_UP)
                 elif event.key == pygame.K_DOWN:
@@ -102,7 +103,17 @@ class Game():
                 elif event.key == pygame.K_RIGHT:
                     self.keys_pressed.add(pygame.K_RIGHT)
 
+                elif event.key == pygame.K_w:
+                    self.keys_pressed.add(pygame.K_UP)
+                elif event.key == pygame.K_s:
+                    self.keys_pressed.add(pygame.K_DOWN)
+                elif event.key == pygame.K_a:
+                    self.keys_pressed.add(pygame.K_LEFT)
+                elif event.key == pygame.K_d:
+                    self.keys_pressed.add(pygame.K_RIGHT)
+
             if event.type == pygame.KEYUP:
+                # WASD
                 if event.key == pygame.K_UP:
                     self.keys_pressed.discard(pygame.K_UP)
                 elif event.key == pygame.K_DOWN:
@@ -110,6 +121,15 @@ class Game():
                 elif event.key == pygame.K_LEFT:
                     self.keys_pressed.discard(pygame.K_LEFT)
                 elif event.key == pygame.K_RIGHT:
+                    self.keys_pressed.discard(pygame.K_RIGHT)
+
+                elif event.key == pygame.K_w:
+                    self.keys_pressed.discard(pygame.K_UP)
+                elif event.key == pygame.K_s:
+                    self.keys_pressed.discard(pygame.K_DOWN)
+                elif event.key == pygame.K_a:
+                    self.keys_pressed.discard(pygame.K_LEFT)
+                elif event.key == pygame.K_d:
                     self.keys_pressed.discard(pygame.K_RIGHT)
 
     # ---------- GAME LOGIC ----------
