@@ -1,14 +1,24 @@
+"""
+Main game module for Hungry Horses Eat Again.
+
+Handles game initialization, main loop, events and game logic.
+"""
+
 import pygame
 import os
 import random
+
 from src.entities.horse import Horse
 import src.settings as settings
 from src.entities.food import Food, RedApple, OrangeCarrot, PurpleBerry
 
 
 class Game():
-    # Main Class Game
+    """Main game class."""
+
     def __init__(self):
+        """Initialize the game window, objects and resources."""
+
         pygame.init()
         self.screen = pygame.display.set_mode((settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
         pygame.display.set_caption("Hungry Horses Eat Again")
@@ -17,38 +27,48 @@ class Game():
 
         self.keys_pressed = set()
 
+        # === HERD (SNAKE) =====
         start_x = settings.SCREEN_WIDTH // 2
         start_y = settings.SCREEN_HEIGHT // 2
         self.herd = [Horse(start_x, start_y, 40, 40, settings.BROWN)]
 
-        self.head_positions = []
+        self.head_positions = []  # Maybe we need to rewrite the logic
 
+        # === GAME PARAMETERS ===
         self.score = 0
         self.target_score = 50
         self.next_horse_score = 5
         self.level_completed = False
 
+        # === FOOD SYSTEM ===
         self.foods = []
         self.food_values = {'red_apple': 5, 'orange_carrot': 4, 'purple_berry': 3}
         self.spawn_food_set(3)
 
+        # === LOAD RESOURCES ===
         self.load_background()
         self.load_music()
         self.load_sound_effects()
 
+        # ---------- RESOURCE LOADING ----------
+
     def load_background(self):
+        """Load and scale the background image with a dark overlay."""
+
         grass_path = os.path.join("src", "assets", "images", "bg_green_grass.jpg")
         self.bg_green_grass = pygame.image.load(grass_path)
-        self.bg_green_grass = pygame.transform.scale(
-            self.bg_green_grass,
+        self.bg_green_grass = pygame.transform.scale(self.bg_green_grass,
             (settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
 
+        # Dark overlay for better visibility
         dark_overlay = pygame.Surface((settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
         dark_overlay.fill((0, 0, 0))
         dark_overlay.set_alpha(80)
         self.bg_green_grass.blit(dark_overlay, (0, 0))
 
     def load_music(self):
+        """Load and play background music."""
+
         music_path = os.path.join("src", "assets", "sounds", "FoamRubber.mp3")
         try:
             pygame.mixer.music.load(music_path)
@@ -58,12 +78,16 @@ class Game():
             print("Don't load music file.")
 
     def load_sound_effects(self):
+        """Load sound effects."""
+
         eat_sound_path = os.path.join("src", "assets", "sounds", "eat_food.mp3")
         self.eat_sound = pygame.mixer.Sound(eat_sound_path)
 
+    # ---------- EVENT HANDLING ----------
 
     def handle_events(self):
-        # Player control
+        """Process all input events."""
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
@@ -88,9 +112,12 @@ class Game():
                 elif event.key == pygame.K_RIGHT:
                     self.keys_pressed.discard(pygame.K_RIGHT)
 
+    # ---------- GAME LOGIC ----------
 
     def update(self):
-        # Move head
+        """Update all game logic each frame"""
+
+        # --- 1. Head Movement ---
         dx, dy = 0, 0
         if pygame.K_UP in self.keys_pressed:
             dy = -3
@@ -103,13 +130,12 @@ class Game():
 
         self.herd[0].move(dx, dy)
 
-        # Bounds for x-coordinates
+        # --- 2. Screen Boundaries for Head ---
         if self.herd[0].rect.x < 0:
             self.herd[0].rect.x = 0
         elif self.herd[0].rect.x > settings.SCREEN_WIDTH - self.herd[0].rect.width:
             self.herd[0].rect.x = settings.SCREEN_WIDTH - self.herd[0].rect.width
 
-        # Bounds for y-coordinates
         if self.herd[0].rect.y < 0:
             self.herd[0].rect.y = 0
         elif self.herd[0].rect.y > settings.SCREEN_HEIGHT - self.herd[0].rect.height:
@@ -202,7 +228,7 @@ class Game():
         pygame.quit()
 
 
-    def spawn_single_food(self, food_type):
+    def spawn_single_food(self, food_types):
         x = random.randint(0, settings.SCREEN_WIDTH)
         y = random.randint(0, settings.SCREEN_HEIGHT)
 
@@ -212,11 +238,11 @@ class Game():
             y = random.randint(0, settings.SCREEN_HEIGHT)
             temp_rect = pygame.Rect(x - 10, y - 10, 20, 20)
 
-        if food_type == 'red_apple':
+        if food_types == 'red_apple':
             food = RedApple(x, y)
-        elif food_type == 'orange_carrot':
+        elif food_types == 'orange_carrot':
             food = OrangeCarrot(x, y)
-        elif food_type == 'purple_berry':
+        elif food_types == 'purple_berry':
             food = PurpleBerry(x, y)
         else:
             return
