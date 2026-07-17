@@ -1,7 +1,16 @@
+"""
+Horse class for the Hungry Horses Eat Again.
+
+Represents a single horse in the herd with position, size, color,
+and methods for drawing and movement.
+"""
+
 import pygame
 
-class Horse():
-    # Main class Horse for feature inheritance
+
+class Horse:
+    """ A horse entity in the game."""
+
     def __init__(self, x, y, width, height, color):
         self.x = x
         self.y = y

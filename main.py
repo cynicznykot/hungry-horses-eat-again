@@ -3,7 +3,7 @@ import os
 import random
 from src.entities.horse import Horse
 import src.settings as settings
-from src.entities.food import Food, Apple, Carrot, Berry
+from src.entities.food import Food, RedApple, OrangeCarrot, PurpleBerry
 
 
 class Game():
@@ -29,7 +29,7 @@ class Game():
         self.level_completed = False
 
         self.foods = []
-        self.food_values = {'apple': 5, 'carrot': 4, 'berry': 3}
+        self.food_values = {'red_apple': 5, 'orange_carrot': 4, 'purple_berry': 3}
         self.spawn_food_set(3)
 
         self.load_background()
@@ -118,7 +118,7 @@ class Game():
         # Save head positions in history
         self.head_positions.insert(0, (self.herd[0].rect.x, self.herd[0].rect.y))
 
-        # Limiting the history lenght
+        # Limiting the history length
         max_history = len(self.herd) * 20 + 20
         if len(self.head_positions) > max_history:
             self.head_positions = self.head_positions[:max_history]
@@ -144,7 +144,7 @@ class Game():
                     self.level_completed = True
                     self.running = False
                 else:
-                    new_type = random.choice(['apple', 'carrot', 'berry'])
+                    new_type = random.choice(['red_apple', 'orange_carrot', 'purple_berry'])
                     self.spawn_single_food(new_type)
 
                 break
@@ -212,12 +212,12 @@ class Game():
             y = random.randint(0, settings.SCREEN_HEIGHT)
             temp_rect = pygame.Rect(x - 10, y - 10, 20, 20)
 
-        if food_type == 'apple':
-            food = Apple(x, y)
-        elif food_type == 'carrot':
-            food = Carrot(x, y)
-        elif food_type == 'berry':
-            food = Berry(x, y)
+        if food_type == 'red_apple':
+            food = RedApple(x, y)
+        elif food_type == 'orange_carrot':
+            food = OrangeCarrot(x, y)
+        elif food_type == 'purple_berry':
+            food = PurpleBerry(x, y)
         else:
             return
 
@@ -225,7 +225,7 @@ class Game():
 
     def spawn_food_set(self, count):
         self.foods = []
-        food_types = ['apple', 'carrot', 'berry']
+        food_types = ['red_apple', 'orange_carrot', 'purple_berry']
         for i in range(min(count, len(food_types))):
             self.spawn_single_food(food_types[i])
 
