@@ -14,27 +14,41 @@ class Game():
         pygame.display.set_caption("Hungry Horses Eat Again")
         self.clock = pygame.time.Clock()
         self.running = True
-        self.herd = [Horse(settings.SCREEN_WIDTH // 2, settings.SCREEN_HEIGHT // 2, 40, 40, settings.BROWN)]
-        self.next_horse_score = 5
-        self.head_positions = []
-        self.direction = (0, 0)
+
         self.keys_pressed = set()
-        self.foods = []
-        self.total_food_to_collect = 10
+
+        start_x = settings.SCREEN_WIDTH // 2
+        start_y = settings.SCREEN_HEIGHT // 2
+        self.herd = [Horse(start_x, start_y, 40, 40, settings.BROWN)]
+
+        self.head_positions = []
+
         self.score = 0
         self.target_score = 50
-        self.food_values = {
-            'apple': 5,
-            'carrot': 4,
-            'berry': 3
-        }
-        self.spawn_food_set(3)
+        self.next_horse_score = 5
         self.level_completed = False
 
+        self.foods = []
+        self.food_values = {'apple': 5, 'carrot': 4, 'berry': 3}
+        self.spawn_food_set(3)
+
+        self.load_background()
+        self.load_music()
+        self.load_sound_effects()
+
+    def load_background(self):
         grass_path = os.path.join("src", "assets", "images", "bg_green_grass.jpg")
         self.bg_green_grass = pygame.image.load(grass_path)
-        self.bg_green_grass = pygame.transform.scale(self.bg_green_grass, (settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
+        self.bg_green_grass = pygame.transform.scale(
+            self.bg_green_grass,
+            (settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
 
+        dark_overlay = pygame.Surface((settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
+        dark_overlay.fill((0, 0, 0))
+        dark_overlay.set_alpha(80)
+        self.bg_green_grass.blit(dark_overlay, (0, 0))
+
+    def load_music(self):
         music_path = os.path.join("src", "assets", "sounds", "FoamRubber.mp3")
         try:
             pygame.mixer.music.load(music_path)
@@ -43,14 +57,9 @@ class Game():
         except pygame.error:
             print("Don't load music file.")
 
+    def load_sound_effects(self):
         eat_sound_path = os.path.join("src", "assets", "sounds", "eat_food.mp3")
         self.eat_sound = pygame.mixer.Sound(eat_sound_path)
-
-
-        dark_overlay = pygame.Surface((settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
-        dark_overlay.fill((0, 0, 0))
-        dark_overlay.set_alpha(80)
-        self.bg_green_grass.blit(dark_overlay, (0, 0))
 
 
     def handle_events(self):
@@ -58,6 +67,7 @@ class Game():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
                     self.keys_pressed.add(pygame.K_UP)
@@ -98,6 +108,7 @@ class Game():
             self.herd[0].rect.x = 0
         elif self.herd[0].rect.x > settings.SCREEN_WIDTH - self.herd[0].rect.width:
             self.herd[0].rect.x = settings.SCREEN_WIDTH - self.herd[0].rect.width
+
         # Bounds for y-coordinates
         if self.herd[0].rect.y < 0:
             self.herd[0].rect.y = 0
@@ -143,7 +154,12 @@ class Game():
         # Add new horses when reaching 5, 10, 15 points etc
         if self.score >= self.next_horse_score:
             last_horse = self.herd[-1]
-            new_horse = Horse(last_horse.rect.x, last_horse.rect.y, 40, 40, settings.BROWN)
+            new_horse = Horse(
+                last_horse.rect.x,
+                last_horse.rect.y,
+                40,
+                40,
+                settings.BROWN)
             self.herd.append(new_horse)
             self.next_horse_score += 5
 
@@ -209,7 +225,6 @@ class Game():
 
     def spawn_food_set(self, count):
         self.foods = []
-
         food_types = ['apple', 'carrot', 'berry']
         for i in range(min(count, len(food_types))):
             self.spawn_single_food(food_types[i])
