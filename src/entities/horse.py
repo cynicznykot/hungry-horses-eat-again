@@ -24,6 +24,16 @@ class Horse:
 
     def move(self, dx, dy):
         self.rect.move_ip(dx, dy)
+        self.x += dx
+        self.y += dy
+        self.rect.x = self.x
+        self.rect.y = self.y
+
+    def get_position(self):
+        return (self.rect.x, self.rect.y)
+
+    def get_center(self):
+        return (self.x + self.width // 2, self.y + self.height // 2)
 
 
 
