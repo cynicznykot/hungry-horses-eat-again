@@ -93,7 +93,7 @@ class Game():
                 self.running = False
 
             if event.type == pygame.KEYDOWN:
-                # Hands
+                # === Arrow Keys ===
                 if event.key == pygame.K_UP:
                     self.keys_pressed.add(pygame.K_UP)
                 elif event.key == pygame.K_DOWN:
@@ -103,6 +103,7 @@ class Game():
                 elif event.key == pygame.K_RIGHT:
                     self.keys_pressed.add(pygame.K_RIGHT)
 
+                # === WASD ===
                 elif event.key == pygame.K_w:
                     self.keys_pressed.add(pygame.K_UP)
                 elif event.key == pygame.K_s:
@@ -113,7 +114,7 @@ class Game():
                     self.keys_pressed.add(pygame.K_RIGHT)
 
             if event.type == pygame.KEYUP:
-                # WASD
+                # === Arrow Keys ===
                 if event.key == pygame.K_UP:
                     self.keys_pressed.discard(pygame.K_UP)
                 elif event.key == pygame.K_DOWN:
@@ -123,6 +124,7 @@ class Game():
                 elif event.key == pygame.K_RIGHT:
                     self.keys_pressed.discard(pygame.K_RIGHT)
 
+                # === WASD ===
                 elif event.key == pygame.K_w:
                     self.keys_pressed.discard(pygame.K_UP)
                 elif event.key == pygame.K_s:
@@ -161,18 +163,18 @@ class Game():
         elif self.herd[0].rect.y > settings.SCREEN_HEIGHT - self.herd[0].rect.height:
             self.herd[0].rect.y = settings.SCREEN_HEIGHT - self.herd[0].rect.height
 
-        # Save head positions in history (only if moved)
+        # --- 3. Save Head Positions History ---
         current_pos = (self.herd[0].rect.x, self.herd[0].rect.y)
 
         if not self.head_positions or self.head_positions[0] != current_pos:
             self.head_positions.insert(0, current_pos)
 
-        # Limiting the history length
+        # Limit history length to prevent unlimited growth
         max_history = len(self.herd) * 20 + 20
         if len(self.head_positions) > max_history:
             self.head_positions = self.head_positions[:max_history]
 
-        # Move tail
+        # --- 4. Move Tail ---
         step = 15
         for i in range(1, len(self.herd)):
             position_index = i * step
@@ -180,7 +182,8 @@ class Game():
                 self.herd[i].rect.x = self.head_positions[position_index][0]
                 self.herd[i].rect.y = self.head_positions[position_index][1]
 
-        # The arrival of the food at the right level
+        # --- 5. Food Collection
+        # Check head collision with food
         i = 0
         while i < len(self.foods):
             food = self.foods[i]
@@ -189,10 +192,12 @@ class Game():
                 self.foods.pop(i)
                 self.score += self.food_values[food.food_types]
 
+                # Check if level is complete
                 if self.score >= self.target_score:
                     self.level_completed = True
                     self.running = False
                 else:
+                    # Spawn a new food of random type
                     new_type = random.choice(['red_apple', 'orange_carrot', 'purple_berry'])
                     self.spawn_single_food(new_type)
 
@@ -200,7 +205,8 @@ class Game():
             else:
                 i += 1
 
-        # Add new horses when reaching 5, 10, 15 points etc
+        # --- 6. Add New Horse ---
+        # Every 5 points a new horse is added to the herd
         if self.score >= self.next_horse_score:
             last_horse = self.herd[-1]
             new_horse = Horse(
@@ -212,24 +218,28 @@ class Game():
             self.herd.append(new_horse)
             self.next_horse_score += 5
 
+    # ---------- RENDERING ----------
+
     def render(self):
-        # Clear screen and draw all game objects
+        """Render all game objects to the screen"""
+
+        # 1. Background (grass)
         self.screen.blit(self.bg_green_grass, (0, 0))
 
-        # Render foods
+        # 2. Food items
         for food in self.foods:
             food.draw(self.screen)
 
-        # Render horses (head and tail)
+        # 3. Herd (head and tail)
         for horse in self.herd:
             horse.draw(self.screen)
 
-        # Score text
+        # 4. Score display (UI)
         font_small = pygame.font.Font(None, 36)
         score_text = font_small.render(f"Score: {self.score} / {self.target_score}", True, (255, 255, 255))
         self.screen.blit(score_text, (10, 10))
 
-        # Level completion notification
+        # 5. Level completion message
         if self.level_completed:
             font = pygame.font.Font(None, 74)
             text = font.render("Level completed!", True, (255, 255, 255))
@@ -240,27 +250,33 @@ class Game():
 
 
     def run(self):
-        # Main game loop
+        """Main game loop"""
+
         while self.running:
             self.handle_events()
             self.update()
             self.render()
             self.clock.tick(settings.FPS)
 
+        # Delay before closing so the player can see the message
         pygame.time.wait(2000)
         pygame.quit()
 
 
     def spawn_single_food(self, food_types):
+        """Spawn one food item of the specified type at a random position"""
+
         x = random.randint(0, settings.SCREEN_WIDTH)
         y = random.randint(0, settings.SCREEN_HEIGHT)
 
+        # Food should not spawn inside the head
         temp_rect = pygame.Rect(x - 10, y - 10, 20, 20)
         while temp_rect.colliderect(self.herd[0].rect):
             x = random.randint(0, settings.SCREEN_WIDTH)
             y = random.randint(0, settings.SCREEN_HEIGHT)
             temp_rect = pygame.Rect(x - 10, y - 10, 20, 20)
 
+        # Create the appropriate food object based on type
         if food_types == 'red_apple':
             food = RedApple(x, y)
         elif food_types == 'orange_carrot':
@@ -273,6 +289,8 @@ class Game():
         self.foods.append(food)
 
     def spawn_food_set(self, count):
+        """Spawn a set of food items (one of each type)."""
+        
         self.foods = []
         food_types = ['red_apple', 'orange_carrot', 'purple_berry']
         for i in range(min(count, len(food_types))):
