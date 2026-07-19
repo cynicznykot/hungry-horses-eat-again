@@ -266,17 +266,30 @@ class Game():
     def spawn_single_food(self, food_types):
         """Spawn one food item of the specified type at a random position"""
 
-        x = random.randint(0, settings.SCREEN_WIDTH)
-        y = random.randint(0, settings.SCREEN_HEIGHT)
+        # Define radii for each food type (affects collision detection size)
+        radii = {'red_apple': 20, 'orange': 18, 'purple_berry': 16}
 
-        # Food should not spawn inside the head
-        temp_rect = pygame.Rect(x - 10, y - 10, 20, 20)
-        while temp_rect.colliderect(self.herd[0].rect):
-            x = random.randint(0, settings.SCREEN_WIDTH)
-            y = random.randint(0, settings.SCREEN_HEIGHT)
-            temp_rect = pygame.Rect(x - 10, y - 10, 20, 20)
+        # Get radius for the specified food type, default to 18 if not found
+        food_radius = radii.get(food_types, 18)
 
-        # Create the appropriate food object based on type
+        # Keep trying until we find a valid position
+        while True:
+            x = random.randint(food_radius, settings.SCREEN_WIDTH - food_radius)
+            y = random.randint(food_radius, settings.SCREEN_HEIGHT - food_radius)
+            temp_rect = pygame.Rect(x - food_radius, y - food_radius, food_radius * 2, food_radius * 2)
+
+            # Check if the food overlaps with any horse in the herd
+            collision = False
+            for horse in self.herd:
+                if temp_rect.colliderect(horse.rect):
+                    collision = True
+                    break
+
+            # If no collision found, exit the loop
+            if not collision:
+                break
+
+        # Create the appropriate food object based on the type
         if food_types == 'red_apple':
             food = RedApple(x, y)
         elif food_types == 'orange_carrot':
@@ -286,11 +299,13 @@ class Game():
         else:
             return
 
+        # Add the food to the game's food list
         self.foods.append(food)
+
 
     def spawn_food_set(self, count):
         """Spawn a set of food items (one of each type)."""
-        
+
         self.foods = []
         food_types = ['red_apple', 'orange_carrot', 'purple_berry']
         for i in range(min(count, len(food_types))):
