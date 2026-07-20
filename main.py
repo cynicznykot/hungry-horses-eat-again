@@ -11,6 +11,7 @@ import random
 from src.entities.horse import Horse
 import src.settings as settings
 from src.entities.food import Food, RedApple, OrangeCarrot, PurpleBerry
+from src.entities.obstacle import Obstacle
 
 
 class Game():
@@ -49,6 +50,8 @@ class Game():
         self.load_background()
         self.load_music()
         self.load_sound_effects()
+
+        self.spawn_obstacles(5)
 
         # ---------- RESOURCE LOADING ----------
 
@@ -218,6 +221,11 @@ class Game():
             self.herd.append(new_horse)
             self.next_horse_score += 5
 
+        for obstacle in self.obstacles:
+            if self.herd[0].rect.colliderect(obstacle.rect):
+                self.herd[0].move(-dx, -dy)
+                return
+
     # ---------- RENDERING ----------
 
     def render(self):
@@ -234,6 +242,9 @@ class Game():
         for horse in self.herd:
             horse.draw(self.screen)
 
+        for obstacle in self.obstacles:
+            obstacle.draw(self.screen)
+
         # 4. Score display (UI)
         font_small = pygame.font.Font(None, 36)
         score_text = font_small.render(f"Score: {self.score} / {self.target_score}", True, (255, 255, 255))
@@ -245,6 +256,7 @@ class Game():
             text = font.render("Level completed!", True, (255, 255, 255))
             text_rect = text.get_rect(center=(settings.SCREEN_WIDTH // 2, settings.SCREEN_HEIGHT // 2))
             self.screen.blit(text, text_rect)
+
 
         pygame.display.flip()
 
@@ -310,6 +322,44 @@ class Game():
         food_types = ['red_apple', 'orange_carrot', 'purple_berry']
         for i in range(min(count, len(food_types))):
             self.spawn_single_food(food_types[i])
+
+
+    def spawn_obstacles(self, level):
+        """Spawn all obstacles based on the current level"""
+
+        self.obstacles = []
+
+        count = level + 1
+
+        colors = [(139, 69, 19), (160, 82, 45), (205, 133, 63), (210, 180, 140)]
+
+        for _ in range(count):
+            attempts = 0
+            while attempts < 50:
+                width = random.randint(20, 50)
+                height = random.randint(20, 50)
+
+                x = random.randint(0, settings.SCREEN_WIDTH - width)
+                y = random.randint(0, settings.SCREEN_HEIGHT - height)
+
+                temp_rect = pygame.Rect(x, y, width, height)
+
+                collision = False
+                for horse in self.herd:
+                    if temp_rect.colliderect(horse.rect):
+                        collision = True
+                        break
+
+                for obs in self.obstacles:
+                    if temp_rect.colliderect(obs.rect):
+                        collision = True
+                        break
+
+                if not collision:
+                    color = random.choice(colors)
+                    self.obstacles.append(Obstacle(x, y, width, height, color))
+                    break
+                attempts += 1
 
 
 if __name__ == "__main__":
