@@ -12,6 +12,7 @@ from src.entities.horse import Horse
 import src.settings as settings
 from src.entities.food import Food, RedApple, OrangeCarrot, PurpleBerry
 from src.entities.obstacle import Obstacle
+from src.entities.enemy import Enemy
 
 
 class Game():
@@ -44,6 +45,10 @@ class Game():
         # === OBSTACLES ==
         self.obstacles = []
         self.spawn_obstacles(4)
+
+        # === ENEMY ===
+        self.enemies = []
+        self.spawn_enemies(2)
 
         # === FOOD SYSTEM ===
         self.foods = []
@@ -229,6 +234,17 @@ class Game():
                 self.herd[0].move(-dx, -dy)
                 return
 
+        for enemy in self.enemies:
+            enemy.update(settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT)
+
+        for enemy in self.enemies:
+            if self.herd[0].rect.colliderect(enemy.rect):
+                self.herd = [self.herd[0]]
+                self.score = 0
+                self.next_horse_score = 5
+                self.head_positions = []
+                return
+
     # ---------- RENDERING ----------
 
     def render(self):
@@ -247,6 +263,9 @@ class Game():
 
         for obstacle in self.obstacles:
             obstacle.draw(self.screen)
+
+        for enemy in self.enemies:
+            enemy.draw(self.screen)
 
         # 4. Score display (UI)
         font_small = pygame.font.Font(None, 36)
@@ -376,6 +395,45 @@ class Game():
 
                 if not collision:
                     self.obstacles.append(Obstacle(x, y, width, height, color))
+                    break
+                attempts += 1
+
+
+    def spawn_enemies(self, count):
+        """Spawn enemies at random positions"""
+
+        self.enemies = []
+        snake_color = (255, 255, 0)
+
+        for _ in range(count):
+            attempts = 0
+            while attempts < 50:
+                size = random.randint(13, 30)
+                x = random.randint(0, settings.SCREEN_WIDTH - size)
+                y = random.randint(0, settings.SCREEN_HEIGHT - size)
+                temp_rect = pygame.Rect(x, y, size, size)
+
+                collision = False
+                for horse in self.herd:
+                    if temp_rect.colliderect(horse.rect):
+                        collision = True
+                        break
+
+                if not collision:
+                    for obstacle in self.obstacles:
+                        if temp_rect.colliderect(obstacle.rect):
+                            collision = True
+                            break
+
+                if not collision:
+                    for enemy in self.enemies:
+                        if temp_rect.colliderect(enemy.rect):
+                            collision = True
+                            break
+
+                if not collision:
+                    speed = random.randint(1, 3)
+                    self.enemies.append(Enemy(x, y, size, speed, snake_color))
                     break
                 attempts += 1
 

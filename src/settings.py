@@ -16,7 +16,7 @@ WHITE = (255, 255, 255)         # Used in main.py for UI text (score, level comp
 BROWN = (139, 69, 69)           # Used in main.py for horse color
 BLUE = (0, 0, 255)
 GREEN = (0, 255, 0)             # Used in main.py for trees color
-YELLOW = (255, 255, 0)
+YELLOW = (255, 255, 0)          # Used in main.py for snakes color
 
 # ===== COMPLEMENTARY COLORS =====
 # (Some will be used later. Some I will remove for code cleanliness)
