@@ -22,15 +22,23 @@ class Enemy:
         self.rect.x += self.dx
         self.rect.y += self.dy
 
-        if self.rect.x <= 0 or self.rect.x >= screen_width:
-            self.dx = -self.dx
-        if self.rect.y <= 0 or self.rect.y >= screen_height:
-            self.dy = -self.dy
+        if self.rect.left <= 0:
+            self.rect.left = 0
+            self.dx = random.choice([1, 2]) * self.speed
+        elif self.rect.right >= screen_width:
+            self.rect.right = screen_width
+            self.dx = -random.choice([1, 2]) * self.speed
 
+        if self.rect.top <= 0:
+            self.rect.top = 0
+            self.dy = random.choice([1, 2]) * self.speed
+        elif self.rect.bottom >= screen_height:
+            self.rect.bottom = screen_height
+            self.dy = -random.choice([1, 2]) * self.speed
         self.change_direction_timer += 1
         if self.change_direction_timer >= self.change_interval:
-            self.dx = random.choice([-self.speed, -self.speed])
-            self.dy = random.choice([-self.speed, -self.speed])
+            self.dx = random.choice([-self.speed, self.speed])
+            self.dy = random.choice([-self.speed, self.speed])
             self.change_direction_timer = 0
             self.change_interval = random.randint(60, 100)
 
