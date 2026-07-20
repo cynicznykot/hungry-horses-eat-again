@@ -331,13 +331,13 @@ class Game():
 
         count = level + 1
 
-        colors = [(139, 69, 19), (160, 82, 45), (205, 133, 63), (210, 180, 140)]
+        colors = [(0, 255, 0), (128, 128, 128)]
 
         for _ in range(count):
             attempts = 0
             while attempts < 50:
-                width = random.randint(20, 50)
-                height = random.randint(20, 50)
+                width = random.randint(30, 100)
+                height = random.randint(30, 100)
 
                 x = random.randint(0, settings.SCREEN_WIDTH - width)
                 y = random.randint(0, settings.SCREEN_HEIGHT - height)

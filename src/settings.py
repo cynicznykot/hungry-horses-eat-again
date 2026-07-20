@@ -15,7 +15,7 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)         # Used in main.py for UI text (score, level completion)
 BROWN = (139, 69, 69)           # Used in main.py for horse color
 BLUE = (0, 0, 255)
-GREEN = (0, 255, 0)
+GREEN = (0, 255, 0)             # Used in main.py for trees color
 YELLOW = (255, 255, 0)
 
 # ===== COMPLEMENTARY COLORS =====
@@ -35,7 +35,7 @@ PURPLE = (128, 0, 128)
 GOLD = (255, 215, 0)
 SILVER = (192, 192, 192)
 PINK = (255, 192, 203)
-GRAY = (128, 128, 128)
+GRAY = (128, 128, 128)         # Used in main.py for houses color
 
 # ===== FOOD COLORS =====
 # Buff food
