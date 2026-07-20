@@ -331,13 +331,23 @@ class Game():
 
         count = level + 1
 
-        colors = [(0, 255, 0), (128, 128, 128)]
+        house_color = (128, 128, 128)
+        tree_color = (0, 255, 0)
 
         for _ in range(count):
             attempts = 0
             while attempts < 50:
-                width = random.randint(30, 100)
-                height = random.randint(30, 100)
+                is_house = random.choice([True, False])
+
+                if is_house:
+                    width = random.randint(60, 90)
+                    height = random.randint(60, 90)
+                    color = house_color
+
+                else:
+                    width = random.randint(40, 60)
+                    height = random.randint(40, 60)
+                    color = tree_color
 
                 x = random.randint(0, settings.SCREEN_WIDTH - width)
                 y = random.randint(0, settings.SCREEN_HEIGHT - height)
@@ -356,7 +366,6 @@ class Game():
                         break
 
                 if not collision:
-                    color = random.choice(colors)
                     self.obstacles.append(Obstacle(x, y, width, height, color))
                     break
                 attempts += 1
