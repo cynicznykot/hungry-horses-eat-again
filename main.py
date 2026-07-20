@@ -41,6 +41,10 @@ class Game():
         self.next_horse_score = 5
         self.level_completed = False
 
+        # === OBSTACLES ==
+        self.obstacles = []
+        self.spawn_obstacles(4)
+
         # === FOOD SYSTEM ===
         self.foods = []
         self.food_values = {'red_apple': 5, 'orange_carrot': 4, 'purple_berry': 3}
@@ -51,7 +55,6 @@ class Game():
         self.load_music()
         self.load_sound_effects()
 
-        self.spawn_obstacles(5)
 
         # ---------- RESOURCE LOADING ----------
 
@@ -296,6 +299,12 @@ class Game():
                 if temp_rect.colliderect(horse.rect):
                     collision = True
                     break
+
+            if not collision:
+                for obstacle in self.obstacles:
+                    if temp_rect.colliderect(obstacle.rect):
+                        collision = True
+                        break
 
             # If no collision found, exit the loop
             if not collision:
