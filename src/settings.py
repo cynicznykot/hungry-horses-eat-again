@@ -15,8 +15,8 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)         # Used in main.py for UI text (score, level completion)
 BROWN = (139, 69, 69)           # Used in main.py for horse color
 BLUE = (0, 0, 255)
-GREEN = (0, 255, 0)             # Used in main.py for trees color
-YELLOW = (255, 255, 0)          # Used in main.py for snakes color
+GREEN = (0, 255, 0)             # Used in main.py for trees and text (green timer) color
+YELLOW = (255, 255, 0)          # Used in main.py for snakes and text (yellow timer) color
 
 # ===== COMPLEMENTARY COLORS =====
 # (Some will be used later. Some I will remove for code cleanliness)
@@ -39,7 +39,7 @@ GRAY = (128, 128, 128)         # Used in main.py for houses color
 
 # ===== FOOD COLORS =====
 # Buff food
-RED_APPLE = (255, 50, 50)       # Used in main.py for red_apple buff food (+ 5 score)
+RED_APPLE = (255, 50, 50)       # Used in main.py for red_apple buff food (+ 5 score) and text (red timer)
 ORANGE_CARROT = (255, 140, 0)   # Used in main.py for orange_carrot buff food (+ 4 score)
 PURPLE_BERRY = (128, 0, 128)    # Used in main.py for purple_berry buff food (+ 3 score)
 
