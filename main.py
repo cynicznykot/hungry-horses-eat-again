@@ -43,6 +43,7 @@ class Game():
         self.level_completed = False
         self.just_hit_obstacle = False
         self.game_over = False
+        self.has_used_truncate = False
 
         # === OBSTACLES ==
         self.obstacles = []
@@ -283,13 +284,24 @@ class Game():
                     enemy.dy = -enemy.dy
                     break
 
-            for horse in self.herd:
+            for i, horse in enumerate(self.herd):
                 if enemy.rect.colliderect(horse.rect):
+                    if len(self.herd) == 1:
+                        self.game_over = True
+                        self.running = False
+                        return
+
+
+                    self.herd = self.herd[:i] if i > 0 else [self.herd[0]]
+                    self.score = (len(self.herd) - 1) * 5
+                    self.next_horse_score = self.score + 5
+                    self.head_positions = []
+
                     enemy.rect.x -= enemy.dx
                     enemy.rect.y -= enemy.dy
                     enemy.dx = -enemy.dx
                     enemy.dy = -enemy.dy
-                    break
+                    return
 
         for enemy in self.enemies:
             if self.herd[0].rect.colliderect(enemy.rect):
