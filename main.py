@@ -209,6 +209,15 @@ class Game():
                 self.herd[i].rect.x = self.head_positions[position_index][0]
                 self.herd[i].rect.y = self.head_positions[position_index][1]
 
+        head_rect = self.herd[0].rect
+        for i in range(2, len(self.herd)):
+            if head_rect.colliderect(self.herd[i].rect):
+                self.herd = self.herd[:i]
+                self.score = (len(self.herd) - 1) * 5
+                self.next_horse_score = self.score + 5
+                self.head_positions = []
+                return
+
         for obstacle in self.obstacles:
             if self.herd[0].rect.colliderect(obstacle.rect):
 
