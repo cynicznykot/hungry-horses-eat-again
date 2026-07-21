@@ -60,7 +60,11 @@ class Game():
 
         # === FOOD SYSTEM ===
         self.foods = []
-        self.food_values = {'red_apple': 5, 'orange_carrot': 4, 'purple_berry': 3}
+        self.food_values = {
+            'red_apple': {'points': 5, 'time_bonus': 0},
+            'orange_carrot': {'points': 4, 'time_bonus': 0},
+            'purple_berry': {'points': 3, 'time_bonus': 2}  # +2 second for timer
+        }
         self.spawn_food_set(3)
 
         # === LOAD RESOURCES ===
@@ -259,7 +263,8 @@ class Game():
             if self.herd[0].rect.colliderect(food.rect):
                 self.eat_sound.play()
                 self.foods.pop(i)
-                self.score += self.food_values[food.food_types]
+                self.score += self.food_values[food.food_types]['points']
+                self.time_left += self.food_values[food.food_types]['time_bonus']
 
                 # Check if level is complete
                 if self.score >= self.target_score:
