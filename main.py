@@ -45,6 +45,11 @@ class Game():
         self.game_over = False
         self.has_used_truncate = False
 
+        # === TIMER ===
+        self.time_limit = 60  # 60 second
+        self.time_left = self.time_limit
+        self.timer_started = True
+
         # === OBSTACLES ==
         self.obstacles = []
         self.spawn_obstacles(5)
@@ -218,6 +223,14 @@ class Game():
                 self.head_positions = []
                 return
 
+        if self.timer_started:
+            self.time_left -= 1 / settings.FPS
+
+            if self.time_left <= 0:
+                self.game_over = True
+                self.running = False
+                return
+
         for obstacle in self.obstacles:
             if self.herd[0].rect.colliderect(obstacle.rect):
 
@@ -359,7 +372,18 @@ class Game():
         score_text = font_small.render(f"Score: {self.score} / {self.target_score}", True, (255, 255, 255))
         self.screen.blit(score_text, (10, 10))
 
-        # 5. Level completion message
+        # 5. Timer display (UI)
+        if self.time_left > 30:
+            time_color = settings.GREEN  # Green
+        elif self.time_left > 10:
+            time_color = settings.YELLOW  # Yellow
+        else:
+            time_color = settings.RED_APPLE  # Red
+
+        timer_text = font_small.render(f"Time: {int(self.time_left)}s", True, time_color)
+        self.screen.blit(timer_text, (settings.SCREEN_WIDTH - 120, 10))
+
+        # 6. Level completion message
         if self.level_completed:
             font = pygame.font.Font(None, 74)
             text = font.render("Level completed!", True, (255, 255, 255))
@@ -404,6 +428,9 @@ class Game():
 
         self.enemies = []
         self.spawn_enemies(2)
+
+        self.timer_started = True
+        self.time_left = self.time_limit
 
 
     def spawn_single_food(self, food_types):
