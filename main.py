@@ -389,19 +389,22 @@ class Game():
         """Spawn one food item of the specified type at a random position"""
 
         # Define radii for each food type (affects collision detection size)
-        radii = {'red_apple': 20, 'orange': 18, 'purple_berry': 16}
+        radii = {'red_apple': 20, 'orange_carrot': 18, 'purple_berry': 16}
 
         # Get radius for the specified food type, default to 18 if not found
         food_radius = radii.get(food_types, 18)
 
+        max_attempts = 1000
+
         # Keep trying until we find a valid position
-        while True:
+        for _ in range(max_attempts):
             x = random.randint(food_radius, settings.SCREEN_WIDTH - food_radius)
             y = random.randint(food_radius, settings.SCREEN_HEIGHT - food_radius)
             temp_rect = pygame.Rect(x - food_radius, y - food_radius, food_radius * 2, food_radius * 2)
 
             # Check if the food overlaps with any horse in the herd
             collision = False
+
             for horse in self.herd:
                 if temp_rect.colliderect(horse.rect):
                     collision = True
@@ -409,27 +412,26 @@ class Game():
 
             if not collision:
                 for obstacle in self.obstacles:
-                    expanded_rect = obstacle.rect.inflate(food_radius * 2, food_radius * 2)
-                    if temp_rect.colliderect(obstacle.rect):
+                    expanded_rect = obstacle.rect.inflate(food_radius * 4, food_radius * 4)
+                    if temp_rect.colliderect(expanded_rect):
                         collision = True
                         break
 
-            # If no collision found, exit the loop
             if not collision:
-                break
+                if food_types == 'red_apple':
+                    food = RedApple(x, y)
+                elif food_types == 'orange_carrot':
+                    food = OrangeCarrot(x, y)
+                elif food_types == 'purple_berry':
+                    food = PurpleBerry(x, y)
+                else:
+                    return
 
-        # Create the appropriate food object based on the type
-        if food_types == 'red_apple':
-            food = RedApple(x, y)
-        elif food_types == 'orange_carrot':
-            food = OrangeCarrot(x, y)
-        elif food_types == 'purple_berry':
-            food = PurpleBerry(x, y)
-        else:
-            return
+                # Add the food to the game's food list
+                self.foods.append(food)
+                return
 
-        # Add the food to the game's food list
-        self.foods.append(food)
+        self.spawn_single_food(food_types)
 
 
     def spawn_food_set(self, count):
