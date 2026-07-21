@@ -193,6 +193,20 @@ class Game():
                 self.herd[i].rect.x = self.head_positions[position_index][0]
                 self.herd[i].rect.y = self.head_positions[position_index][1]
 
+        for obstacle in self.obstacles:
+            if self.herd[0].rect.colliderect(obstacle.rect):
+
+                self.herd[0].rect.x -= dx
+                self.herd[0].rect.y -= dy
+                self.herd[0].x = self.herd[0].rect.x
+                self.herd[0].y = self.herd[0].rect.y
+
+                self.herd = [self.herd[0]]
+                self.score = 0
+                self.next_horse_score = 5
+                self.head_positions = []
+                return
+
         # --- 5. Food Collection
         # Check head collision with food
         i = 0
@@ -252,7 +266,7 @@ class Game():
                     enemy.dx = -enemy.dx
                     enemy.dy = -enemy.dy
                     break
-                    
+
             for horse in self.herd:
                 if enemy.rect.colliderect(horse.rect):
                     enemy.rect.x -= enemy.dx
@@ -263,11 +277,18 @@ class Game():
 
         for enemy in self.enemies:
             if self.herd[0].rect.colliderect(enemy.rect):
+
+                self.herd[0].rect.x -= dx
+                self.herd[0].rect.y -= dy
+                self.herd[0].x = self.herd[0].rect.x
+                self.herd[0].y = self.herd[0].rect.y
+                
                 self.herd = [self.herd[0]]
                 self.score = 0
                 self.next_horse_score = 5
                 self.head_positions = []
                 return
+
 
     # ---------- RENDERING ----------
 
