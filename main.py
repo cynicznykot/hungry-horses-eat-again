@@ -237,6 +237,30 @@ class Game():
         for enemy in self.enemies:
             enemy.update(settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT)
 
+            for obstacle in self.obstacles:
+                if enemy.rect.colliderect(obstacle.rect):
+                    enemy.rect.x -= enemy.dx
+                    enemy.rect.y -= enemy.dy
+                    enemy.dx = -enemy.dx
+                    enemy.dy = -enemy.dy
+                    break
+
+            for other in self.enemies:
+                if other is not enemy and enemy.rect.colliderect(other.rect):
+                    enemy.rect.x -= enemy.dx
+                    enemy.rect.y -= enemy.dy
+                    enemy.dx = -enemy.dx
+                    enemy.dy = -enemy.dy
+                    break
+                    
+            for horse in self.herd:
+                if enemy.rect.colliderect(horse.rect):
+                    enemy.rect.x -= enemy.dx
+                    enemy.rect.y -= enemy.dy
+                    enemy.dx = -enemy.dx
+                    enemy.dy = -enemy.dy
+                    break
+
         for enemy in self.enemies:
             if self.herd[0].rect.colliderect(enemy.rect):
                 self.herd = [self.herd[0]]
@@ -432,7 +456,7 @@ class Game():
                             break
 
                 if not collision:
-                    speed = random.randint(1, 3)
+                    speed = random.randint(1, 2)
                     self.enemies.append(Enemy(x, y, size, speed, snake_color))
                     break
                 attempts += 1
