@@ -71,7 +71,7 @@ class Game():
         grass_path = os.path.join("src", "assets", "images", "bg_green_grass.jpg")
         self.bg_green_grass = pygame.image.load(grass_path)
         self.bg_green_grass = pygame.transform.scale(self.bg_green_grass,
-            (settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
+                                                     (settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
 
         # Dark overlay for better visibility
         dark_overlay = pygame.Surface((settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
@@ -104,17 +104,21 @@ class Game():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
+                return
 
 
-            # == RESTART ON R KEY ===
             if event.type == pygame.KEYDOWN:
+                # == RESTART ON R KEY ===
                 if event.key == pygame.K_r and self.game_over:
                     self.restart_game()
+                    return
+
                 if event.key == pygame.K_q and self.game_over:
                     self.running = False
+                    self.game_over = False
+                    return
 
 
-            if event.type == pygame.KEYDOWN:
                 # === Arrow Keys ===
                 if event.key == pygame.K_UP:
                     self.keys_pressed.add(pygame.K_UP)
@@ -366,26 +370,19 @@ class Game():
         self.next_horse_score = 5
         self.game_over = False
         self.level_completed = False
+        self.just_hit_obstacle = False
         self.running = True
+
+        self.keys_pressed.clear()
 
         self.foods = []
         self.spawn_food_set(3)
 
+        self.obstacles = []
+        self.spawn_obstacles(4)
+
         self.enemies = []
         self.spawn_enemies(2)
-
-    def run(self):
-        """Main game loop"""
-
-        while self.running:
-            self.handle_events()
-            self.update()
-            self.render()
-            self.clock.tick(settings.FPS)
-
-        # Delay before closing so the player can see the message
-        pygame.time.wait(2000)
-        pygame.quit()
 
 
     def spawn_single_food(self, food_types):
@@ -527,15 +524,26 @@ class Game():
                     self.enemies.append(Enemy(x, y, size, speed, snake_color))
                     break
                 attempts += 1
+    def run(self):
+        """Main game loop"""
+
+        while self.running:
+            self.handle_events()
+            self.update()
+            self.render()
+            self.clock.tick(settings.FPS)
+
+            while self.game_over:
+                self.handle_events()
+                self.render()
+                self.clock.tick(settings.FPS)
+
+                if not self.game_over:
+                    break
+
+        pygame.quit()
 
 
 if __name__ == "__main__":
     game = Game()
     game.run()
-
-
-
-
-
-
-
