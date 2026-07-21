@@ -166,6 +166,7 @@ class Game():
         # --- 1. Head Movement ---
         keys = pygame.key.get_pressed()
         dx, dy = 0, 0
+
         if keys[pygame.K_UP] or keys[pygame.K_w]:
             dy = -3
         if keys[pygame.K_DOWN] or keys[pygame.K_s]:
@@ -408,6 +409,7 @@ class Game():
 
             if not collision:
                 for obstacle in self.obstacles:
+                    expanded_rect = obstacle.rect.inflate(food_radius * 2, food_radius * 2)
                     if temp_rect.colliderect(obstacle.rect):
                         collision = True
                         break
@@ -527,12 +529,14 @@ class Game():
         """Main game loop"""
 
         while self.running:
+            pygame.event.pump()
             self.handle_events()
             self.update()
             self.render()
             self.clock.tick(settings.FPS)
 
             while self.game_over:
+                pygame.event.pump()
                 self.handle_events()
                 self.render()
                 self.clock.tick(settings.FPS)
