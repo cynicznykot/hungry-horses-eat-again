@@ -106,7 +106,6 @@ class Game():
                 self.running = False
                 return
 
-
             if event.type == pygame.KEYDOWN:
                 # == RESTART ON R KEY ===
                 if event.key == pygame.K_r and self.game_over:
@@ -117,7 +116,6 @@ class Game():
                     self.running = False
                     self.game_over = False
                     return
-
 
                 # === Arrow Keys ===
                 if event.key == pygame.K_UP:
@@ -166,14 +164,15 @@ class Game():
         """Update all game logic each frame"""
 
         # --- 1. Head Movement ---
+        keys = pygame.key.get_pressed()
         dx, dy = 0, 0
-        if pygame.K_UP in self.keys_pressed:
+        if keys[pygame.K_UP] or keys[pygame.K_w]:
             dy = -3
-        if pygame.K_DOWN in self.keys_pressed:
+        if keys[pygame.K_DOWN] or keys[pygame.K_s]:
             dy = 3
-        if pygame.K_LEFT in self.keys_pressed:
+        if keys[pygame.K_LEFT] or keys[pygame.K_a]:
             dx = -3
-        if pygame.K_RIGHT in self.keys_pressed:
+        if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
             dx = 3
 
         self.herd[0].move(dx, dy)
