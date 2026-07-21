@@ -47,7 +47,7 @@ class Game():
 
         # === OBSTACLES ==
         self.obstacles = []
-        self.spawn_obstacles(4)
+        self.spawn_obstacles(5)
 
         # === ENEMY ===
         self.enemies = []
@@ -202,7 +202,7 @@ class Game():
             self.head_positions = self.head_positions[:max_history]
 
         # --- 4. Move Tail ---
-        step = 15
+        step = 17
         for i in range(1, len(self.herd)):
             position_index = i * step
             if position_index < len(self.head_positions):
@@ -400,7 +400,7 @@ class Game():
         self.spawn_food_set(3)
 
         self.obstacles = []
-        self.spawn_obstacles(4)
+        self.spawn_obstacles(5)
 
         self.enemies = []
         self.spawn_enemies(2)
@@ -480,13 +480,13 @@ class Game():
                 is_house = random.choice([True, False])
 
                 if is_house:
-                    width = random.randint(60, 90)
-                    height = random.randint(60, 90)
+                    width = random.randint(90, 90)
+                    height = random.randint(90, 90)
                     color = house_color
 
                 else:
-                    width = random.randint(40, 60)
-                    height = random.randint(40, 60)
+                    width = random.randint(50, 50)
+                    height = random.randint(50, 50)
                     color = tree_color
 
                 x = random.randint(0, settings.SCREEN_WIDTH - width)
@@ -520,7 +520,7 @@ class Game():
         for _ in range(count):
             attempts = 0
             while attempts < 50:
-                size = random.randint(13, 30)
+                size = random.randint(25, 25)
                 x = random.randint(0, settings.SCREEN_WIDTH - size)
                 y = random.randint(0, settings.SCREEN_HEIGHT - size)
                 temp_rect = pygame.Rect(x, y, size, size)
