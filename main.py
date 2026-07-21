@@ -41,6 +41,8 @@ class Game():
         self.target_score = 50
         self.next_horse_score = 5
         self.level_completed = False
+        self.just_hit_obstacle = False
+        self.game_over = False
 
         # === OBSTACLES ==
         self.obstacles = []
@@ -102,6 +104,15 @@ class Game():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
+
+
+            # == RESTART ON R KEY ===
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r and self.game_over:
+                    self.restart_game()
+                if event.key == pygame.K_q and self.game_over:
+                    self.running = False
+
 
             if event.type == pygame.KEYDOWN:
                 # === Arrow Keys ===
@@ -196,6 +207,11 @@ class Game():
         for obstacle in self.obstacles:
             if self.herd[0].rect.colliderect(obstacle.rect):
 
+                if len(self.herd) == 1 and self.score < 5 and not self.just_hit_obstacle:
+                    self.game_over = True
+                    self.running = False
+                    return
+
                 self.herd[0].rect.x -= dx
                 self.herd[0].rect.y -= dy
                 self.herd[0].x = self.herd[0].rect.x
@@ -205,6 +221,7 @@ class Game():
                 self.score = 0
                 self.next_horse_score = 5
                 self.head_positions = []
+                self.just_hit_obstacle = True
                 return
 
         # --- 5. Food Collection
@@ -243,11 +260,6 @@ class Game():
             self.herd.append(new_horse)
             self.next_horse_score += 5
 
-        for obstacle in self.obstacles:
-            if self.herd[0].rect.colliderect(obstacle.rect):
-                self.herd[0].move(-dx, -dy)
-                return
-
         for enemy in self.enemies:
             enemy.update(settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT)
 
@@ -277,16 +289,21 @@ class Game():
 
         for enemy in self.enemies:
             if self.herd[0].rect.colliderect(enemy.rect):
+                if len(self.herd) == 1 and self.score < 5:
+                    self.game_over = True
+                    self.running = False
+                    return
 
                 self.herd[0].rect.x -= dx
                 self.herd[0].rect.y -= dy
                 self.herd[0].x = self.herd[0].rect.x
                 self.herd[0].y = self.herd[0].rect.y
-                
+
                 self.herd = [self.herd[0]]
                 self.score = 0
                 self.next_horse_score = 5
                 self.head_positions = []
+                self.just_hit_obstacle = True
                 return
 
 
@@ -325,8 +342,37 @@ class Game():
             self.screen.blit(text, text_rect)
 
 
+        if self.game_over:
+            font = pygame.font.Font(None, 74)
+            text = font.render("GAME OVER!", True, (255, 0, 0))
+            text_rect = text.get_rect(center=(settings.SCREEN_WIDTH // 2, settings.SCREEN_HEIGHT // 2 - 50))
+            self.screen.blit(text, text_rect)
+
+            font_small = pygame.font.Font(None, 36)
+            restart_text = font_small.render("Press R to restart or Q to quit", True, (255, 255, 255))
+            restart_rest = restart_text.get_rect(center=(settings.SCREEN_WIDTH // 2, settings.SCREEN_HEIGHT // 2 + 20))
+            self.screen.blit(restart_text, restart_rest)
+
         pygame.display.flip()
 
+
+    def restart_game(self):
+        start_x = settings.SCREEN_WIDTH // 2
+        start_y = settings.SCREEN_HEIGHT // 2
+        self.herd = [Horse(start_x, start_y, 40, 40, settings.BROWN)]
+        self.head_positions = []
+
+        self.score = 0
+        self.next_horse_score = 5
+        self.game_over = False
+        self.level_completed = False
+        self.running = True
+
+        self.foods = []
+        self.spawn_food_set(3)
+
+        self.enemies = []
+        self.spawn_enemies(2)
 
     def run(self):
         """Main game loop"""
