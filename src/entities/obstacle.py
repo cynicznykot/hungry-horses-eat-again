@@ -1,3 +1,9 @@
+"""
+Obstacle class for the Hungry Horses Eat Again game.
+
+Represents static obstacles like horses, trees or rocks.
+"""
+
 import pygame
 
 
