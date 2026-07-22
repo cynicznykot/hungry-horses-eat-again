@@ -1,3 +1,10 @@
+"""
+Enemy class for the Hungry Horses Eat Again game.
+
+Represents an enemy that moves randomly, bounces of walls,
+and changes direction periodically.
+"""
+
 import pygame
 import random
 
